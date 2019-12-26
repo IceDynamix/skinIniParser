@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>skinini.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>skinini.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>https://www.tutorialspoint.com/python/string_split.htm</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Splits the skin.ini file into the different sections, returns an object with following structure</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">splitSections</span><span class="p">(</span><span class="n">fileContent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Numbers aren&rsquo;t parsed, they&rsquo;re kept as strings.
+Lists however are converted into a list of strings:</p>
+<pre><code>{
+    "General": {
+        "Name": str,
+        "Autor: str
+        # ...
+    },
+
+    "Colours": {
+        "Combo1": list(str),
+        "Combo2": list(str)
+        # ...
+    },
+
+    "Fonts": {
+        "ScoreOverlap": str,
+        "ComboOverlap": str
+        # ...
+    },
+
+    "Mania1k": {
+        "Keys": str,
+        "ColumnWidth": list(str),
+        "HitPosition": str
+        # ...
+    }
+}
+</code></pre>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Filters empty lines and comments (comments start with &ldquo;;&rdquo; or &ldquo;//&rdquo;)
+and joins them to a single string again</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">fileContent</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileContent</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+        <span class="s2">&quot;//&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Final object we will be returning</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">parsedObject</span> <span class="o">=</span> <span class="p">{}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Every section starts with a word in square brackets
+(Example: &ldquo;[General]&rdquo;) so if we split everything at the beginning
+of a square brackets we will get an array of each section as an string array element</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <pre><code>Example:
+</code></pre>
+<p>[
+       &ldquo;&rdquo;,
+       &ldquo;General]\nName: Skin Example\nAuthor: IceDynamix &hellip;&rdquo;,
+       &ldquo;Colours]\nCombo1: 0,0,0,0\nCombo2\n0,0,0,0&rdquo;,
+       &ldquo;Fonts]\nScoreOverlap: 10\nComboOverlap: 10&hellip;&rdquo;
+   ]</p>
+<pre><code>Note: The closing square bracket is still there in the element,
+because when splitting at a string, it's removed from the element
+
+Note: There's an empty element at the beginning, because we split at
+a string which is at the very beginning of the file. The file starts with
+"[General]", after all
+</code></pre>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">sections</span> <span class="o">=</span> <span class="n">fileContent</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Remember the closing square bracket? We just crab rave it
+by replacing it with an empty string. Then we split the
+section into the lines by splitting at each newline character.
+Example for [General] section:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <pre><code>[
+    "General,"  # closing square bracket is gone now!
+    "Name: Skin Example",
+    "Author: IceDynamix",
+    "Version: 2.5",
+]
+</code></pre>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">lines</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Just a simple check, not sure if this is even necessary
+but better be safe than sorry</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Looking at our example, it should be clear that the section title
+is the very first element. Therefore, the section content is
+everything after that.
+Our section object is going to look like this for the [General] section:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">sectionTitle</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sectionTextContent</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <pre><code>{
+    "Name": "Skin Example",
+    "Author": "IceDynamix",
+    "Version": "2.5",
+}
+</code></pre>
+<p>Note: This is a proper python object now, you can call the
+properties with something like <code>section["Name"]</code>.
+<code>print(section["Name"])</code> for the General section would
+print &ldquo;IceDynamix&rdquo; in the console.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">sectionObject</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">sectionTextContent</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">attribute</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>  <span class="c1"># Another simple null check</span>
+                <span class="k">continue</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Since each attribute is saved as something like
+&ldquo;{key}: {value}&rdquo; (Example: &ldquo;Name: Skin Example&rdquo;
+where Name would be the key and Skin Example would be the
+value) and both elements are seperated by a colon and a space.
+Splitting the line at &ldquo;; &rdquo; gives us an array of [key,value],
+so we assign the key from [0] and the value from [1].</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">keyValuePair</span> <span class="o">=</span> <span class="n">attribute</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">keyValuePair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">keyValuePair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Detects if the value is an array by checking for a comma</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="s2">&quot;,&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>Adds the key value pair to the object</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">sectionObject</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Sections in .ini files have to be unique. Our skin.ini contains
+multiple [Mania] sections for each keymode though, that&rsquo;s why your
+configloader failed. Objects also have to have unique identifiers,
+otherwise we&rsquo;d be overwriting the same object attribute over and over
+again, until everything is finished. That&rsquo;s why I&rsquo;m editing the
+attribute to be &ldquo;Mania4k&rdquo;, &ldquo;Mania5k&rdquo; etc.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">sectionTitle</span> <span class="o">==</span> <span class="s2">&quot;Mania&quot;</span><span class="p">:</span>
+            <span class="n">sectionTitle</span> <span class="o">=</span> <span class="s2">&quot;Mania&quot;</span> <span class="o">+</span> <span class="n">sectionObject</span><span class="p">[</span><span class="s2">&quot;Keys&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;k&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Adding each section to the final object</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">parsedObject</span><span class="p">[</span><span class="n">sectionTitle</span><span class="p">]</span> <span class="o">=</span> <span class="n">sectionObject</span>
+
+    <span class="k">return</span> <span class="n">parsedObject</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>This code should be trivial to you.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">iniPath</span> <span class="o">=</span> <span class="s2">&quot;skin.ini&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">iniPath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ini</span><span class="p">:</span>
+        <span class="n">fileContent</span> <span class="o">=</span> <span class="n">ini</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="n">splitSections</span><span class="p">(</span><span class="n">fileContent</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>This is just to protect ourselves. It will only jump into the if
+if this is the executed file. If this file were to be imported via
+<code>import skinini</code>, it would run everything at base layer. We don&rsquo;t want
+that to happen. Of course this is irrelevant if this is a single file
+project, but it&rsquo;s just good practice in general</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
