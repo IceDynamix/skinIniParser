@@ -47,23 +47,22 @@ def splitSections(fileContent: str) -> list:
     # (Example: "[General]") so if we split everything at the beginning
     # of a square brackets we will get an array of each section as an string array element
 
-    """
-    Example:
+    # Example:
 
-        [
-            "",
-            "General]\nName: Skin Example\nAuthor: IceDynamix ...",
-            "Colours]\nCombo1: 0,0,0,0\nCombo2\n0,0,0,0",
-            "Fonts]\nScoreOverlap: 10\nComboOverlap: 10..."
-        ]
+    #     [
+    #         "",
+    #         "General]\nName: Skin Example\nAuthor: IceDynamix ...",
+    #         "Colours]\nCombo1: 0,0,0,0\nCombo2\n0,0,0,0",
+    #         "Fonts]\nScoreOverlap: 10\nComboOverlap: 10..."
+    #     ]
 
-    Note: The closing square bracket is still there in the element,
-    because when splitting at a string, it's removed from the element
+    # Note: The closing square bracket is still there in the element,
+    # because when splitting at a string, it's removed from the element
 
-    Note: There's an empty element at the beginning, because we split at
-    a string which is at the very beginning of the file. The file starts with
-    "[General]", after all
-    """
+    # Note: There's an empty element at the beginning, because we split at
+    # a string which is at the very beginning of the file. The file starts with
+    # "[General]", after all
+
     sections = fileContent.split("[")
 
     for section in sections:
@@ -71,15 +70,15 @@ def splitSections(fileContent: str) -> list:
         # by replacing it with an empty string. Then we split the
         # section into the lines by splitting at each newline character.
 
-        """Example for [General] section:
+        # Example for [General] section:
 
-            [
-                "General,"  # closing square bracket is gone now!
-                "Name: Skin Example",
-                "Author: IceDynamix",
-                "Version: 2.5",
-            ]
-        """
+        #     [
+        #         "General,"  # closing square bracket is gone now!
+        #         "Name: Skin Example",
+        #         "Author: IceDynamix",
+        #         "Version: 2.5",
+        #     ]
+
         lines = section.replace("]", "").split("\n")
 
         # Just a simple check, not sure if this is even necessary
@@ -93,19 +92,19 @@ def splitSections(fileContent: str) -> list:
         sectionTitle = lines[0]
         sectionTextContent = lines[1:]
 
-        """Our section object is going to look like this for the [General] section:
+        # Our section object is going to look like this for the [General] section:
 
-            {
-                "Name": "Skin Example",
-                "Author": "IceDynamix",
-                "Version": "2.5",
-            }
+        #     {
+        #         "Name": "Skin Example",
+        #         "Author": "IceDynamix",
+        #         "Version": "2.5",
+        #     }
 
-        Note: This is a proper python object now, you can call the
-        properties with something like `section["Name"]`.
-        `print(section["Name"])` for the General section would
-        print "IceDynamix" in the console.
-        """
+        # Note: This is a proper python object now, you can call the
+        # properties with something like `section["Name"]`.
+        # `print(section["Name"])` for the General section would
+        # print "IceDynamix" in the console.
+
         sectionObject = {}
 
         for attribute in sectionTextContent:
@@ -135,8 +134,8 @@ def splitSections(fileContent: str) -> list:
         # multiple [Mania] sections for each keymode though, that's why your
         # configloader failed. Objects also have to have unique identifiers,
         # otherwise we'd be overwriting the same object attribute over and over
-        # again, until everything is finished. That's why I'm editing the
-        # attribute to be "Mania4k", "Mania5k" etc.
+        # again, until everything is finished. That's why the attribute is edited
+        # to be "Mania4k", "Mania5k" etc.
 
         if sectionTitle == "Mania":
             sectionTitle = "Mania" + sectionObject["Keys"] + "k"
@@ -147,19 +146,19 @@ def splitSections(fileContent: str) -> list:
     return parsedObject
 
 
-# This code should be trivial to you.
+# This code should be trivial
 def main():
     iniPath = "skin.ini"
     with open(iniPath, "r") as ini:
         fileContent = ini.read()
-        sections = splitSections(fileContent)
-        print(sections)
+    sections = splitSections(fileContent)
+    print(sections)
 
 
 # This is just to protect ourselves. It will only jump into the if
 # if this is the executed file. If this file were to be imported via
 # `import skinini`, it would run everything at base layer. We don't want
-# that to happen. Of course this is irrelevant if this is a single file
+# that to happen. Of course it's irrelevant right now as this is a single file
 # project, but it's just good practice in general
 if __name__ == "__main__":
     main()
